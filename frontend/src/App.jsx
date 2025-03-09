@@ -46,10 +46,15 @@ function App() {
     setCode(exampleCodes[language]);
   }, [language]);
 
-  async function reviewCode() {
-    const response = await axios.post('http://localhost:3000/ai/get-review', { code })
-    setReview(response.data)
-  }
+ async function reviewCode() {
+  const backendURL = process.env.NODE_ENV === 'production' 
+    ? 'https://code-critic-backend.onrender.com/ai/get-review' 
+    : 'http://localhost:3000/ai/get-review';
+
+  const response = await axios.post(backendURL, { code });
+  setReview(response.data);
+}
+
 
   return (
     <>
